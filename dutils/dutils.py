@@ -73,7 +73,8 @@ def write_above_image_and_save(img,savename,text="some text",c='red'):
 from matplotlib import cm
 def img_save(img, savename,ROOT_DIR=ROOT_DIR,cmap=None,save=True,return_img=False,use_matplotlib=True,syncable=False):
     saveroot = os.path.splitext(savename)[0]
-    savename = os.path.join(ROOT_DIR,savename)
+    if not os.path.isabs(savename):
+        savename = os.path.join(ROOT_DIR,savename)
     if save:
         print(colorful.tan(f"saving {os.path.abspath(savename)}"))
     '''
@@ -240,7 +241,7 @@ def cipdb(flag,val='1'):
     pass
 #==============================================================
 def save_plot(y,title,savename,x=None):
-    print(colorful.tan(f"saving {savename}"))
+    print(colorful.tan(f"saving {os.path.realpath(savename)}"))
     plt.figure()
     if x is None:
         plt.plot(y)
@@ -266,10 +267,41 @@ def save_plot2(y,title,basename,x=None,syncable=False):
         if syncable:
             sync_to_gdrive(SYNC_DIR)
     return savename
-
+def save_fig(fig,basename):
+   plt.figure(fig.number)
+   plt.savefig(os.path.join(SAVE_DIR,basename+'.png'))
+   plt.close()
+   pass
 def run_in_another_thread(f,args=[],debug=False):
     if debug:
         f(*args)
     else:
         save_thread = threading.Thread(target=f, args=args)
         save_thread.start()
+
+
+class DebuggerDisableException(Exception):
+    def __init__(self,message):
+        super().__init__(message)
+
+class Debug:
+    def __init__(self,name):
+        self.name = name
+        self.enabled = False
+        if os.environ.get(self.name,False) == '1':
+            self.enabled = True
+    def __enter__(self):
+        if not self.enabled:
+            # Disable the context manager by raising an exception
+            raise DebuggerDisableException("Context manager is disabled")
+            # return self.__exit__(None,None,None)
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        # Handle the exception raised in __enter__
+        if exc_type is DebuggerDisableException:
+            print(f"Exception type: {exc_type}")
+            print(f"Exception value: {exc_value}")
+            print("Suppressing the exception")
+            return True  # Suppress the exception
+        else:
+            print("Exiting the context manager normally")
