@@ -267,7 +267,7 @@ def save_plot2(y,title,basename,x=None,syncable=False):
         if syncable:
             sync_to_gdrive(SYNC_DIR)
     return savename
-def save_fig(fig,basename):
+def savefig(fig,basename):
    plt.figure(fig.number)
    plt.savefig(os.path.join(SAVE_DIR,basename+'.png'))
    plt.close()
