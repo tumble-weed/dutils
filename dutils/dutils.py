@@ -15,6 +15,12 @@ IMAGENET_ROOT = "/root/bigfiles/dataset/imagenet"
 IMAGENET_IMAGE_ROOT = os.path.join(IMAGENET_ROOT,'images','val')
 PASCAL_ROOT = "/root/bigfiles/dataset/VOCdevkit/"
 PASCAL_IMAGE_ROOT = os.path.join(PASCAL_ROOT,'VOC2007','JPEGImages')
+#=====================================
+ALWAYS = True
+NEVER = False
+TODO = None
+UNTESTED = False
+#=====================================
 #/root/bigfiles/dataset/VOCdevkit/VOC2007/JPEGImages
 if not os.path.exists(DEBUG_DIR):
     os.makedirs(DEBUG_DIR)
@@ -109,6 +115,7 @@ def img_save(img, savename,ROOT_DIR=ROOT_DIR,cmap=None,save=True,return_img=Fals
     if len(os.path.splitext(savename)[-1]) == 0:
         savename = savename + '.png'
     # skimage.io.imsave(savename,img)
+    img = img.astype(np.float32)
     if use_matplotlib:
         img_with_text = write_above_image_and_save(img,savename,text=saveroot,c='red')
     else:
@@ -269,7 +276,9 @@ def save_plot2(y,title,basename,x=None,syncable=False):
     return savename
 def savefig(fig,basename):
    plt.figure(fig.number)
-   plt.savefig(os.path.join(SAVE_DIR,basename+'.png'))
+   fname = os.path.join(ROOT_DIR,basename+'.png')
+   print(colorful.tan(fname))
+   plt.savefig(fname)
    plt.close()
    pass
 def run_in_another_thread(f,args=[],debug=False):
@@ -305,3 +314,23 @@ class Debug:
             return True  # Suppress the exception
         else:
             print("Exiting the context manager normally")
+
+def hardcode(**kwargs):
+    k = kwargs.keys()
+    v = list(kwargs.values())
+    print(colorful.red('hardcoding'))
+    print(colorful.red(kwargs))
+    if len(v) == 1:
+        return v[0]
+    return v
+import time
+class Timer():
+    def __init__(self,name):
+        self.name= name
+        pass
+    def __enter__(self):
+        self.tic = time.time()
+    def __exit__(self,*args,**kwargs):
+        self.toc = time.time()
+        self.elapsed = self.toc-self.tic
+        print(colorful.yellow(f'{self.name} took {self.elapsed}'))
