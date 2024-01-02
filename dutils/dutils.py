@@ -264,13 +264,20 @@ def save_plot(y,title,savename,x=None):
 def save_plot2(y,title,basename,x=None,syncable=False):
     # prefix = dutils.get('save_prefix','')
     prefix = ''
-    d = SAVE_DIR
-    # import ipdb; ipdb.set_trace()
-    if prefix:
-        d = os.path.join(d,prefix)
-    if not os.path.exists(d):
-        os.makedirs(d)        
-    savename = os.path.join(d,basename)
+    if os.path.isabs(basename):
+      savename = basename
+    else:
+        d = SAVE_DIR
+        # import ipdb; ipdb.set_trace()
+        if prefix:
+            d = os.path.join(d,prefix)
+        if not os.path.exists(d):
+            os.makedirs(d)        
+        savename = os.path.join(d,basename)
+    if isinstance(y,torch.Tensor):
+       y = tensor_to_numpy(y)
+    if x is not None and isinstance(x,torch.Tensor):
+       x = tensor_to_numpy(x)
     save_plot(y,title,savename,x=x)
     if SYNC:
         if syncable:
