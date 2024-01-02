@@ -284,12 +284,15 @@ def save_plot2(y,title,basename,x=None,syncable=False):
             sync_to_gdrive(SYNC_DIR)
     return savename
 def savefig(fig,basename):
-   plt.figure(fig.number)
-   fname = os.path.join(ROOT_DIR,basename+'.png')
-   print(colorful.tan(fname))
-   plt.savefig(fname)
-   plt.close()
-   pass
+    plt.figure(fig.number)
+    if os.path.isabs(basename):
+        fname = basename
+    else:
+        fname = os.path.join(ROOT_DIR,basename+'.png')
+    print(colorful.tan(fname))
+    plt.savefig(fname)
+    plt.close()
+    pass
 def run_in_another_thread(f,args=[],debug=False):
     if debug:
         f(*args)
