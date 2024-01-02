@@ -1,4 +1,6 @@
-scikit-image
+scikit-image==0.20.0
+pillow==9.0.1
+imageio==2.27
 matplotlib
 ipdb
 colorful
