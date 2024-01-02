@@ -5,7 +5,9 @@ import os
 import os
 import glob
 import skimage.io
-import dutils
+#import dutils
+import inspect
+import ipdb
 DEBUG_DIR = 'debugging'
 SAVE_DIR = DEBUG_DIR
 SYNC = False
@@ -323,7 +325,17 @@ def hardcode(**kwargs):
     if len(v) == 1:
         return v[0]
     return v
-import time
+def hack(name,default=False,env=None):
+   state = default
+   if env is not None:
+      state = os.environ.get(env,'0') == '1'
+   if state:
+      frame = inspect.currentframe()
+      info = f'{frame.f_back.f_code.co_name}:{frame.f_back.f_lineno}'
+      print(colorful.red(f'HACK:{info} {name}'))
+   return state
+hack2 = hack
+hardcode2 = hardcode
 class Timer():
     def __init__(self,name):
         self.name= name
@@ -334,3 +346,90 @@ class Timer():
         self.toc = time.time()
         self.elapsed = self.toc-self.tic
         print(colorful.yellow(f'{self.name} took {self.elapsed}'))
+
+pause = ipdb.set_trace
+def init():
+    builtins = globals()['__builtins__']
+    ''' 
+    essntial_dict = {
+      'np':'numpy',
+      'torch':'torch',
+      'matplotlib':'matplotlib'
+      'plt':'mapl
+    }
+    #'''
+    try:
+        #if 'np' not in globals():
+        if True:
+            if 'np' not in builtins:
+                import numpy as np
+                builtins['np'] = np
+                print('np')
+            if 'torch' not in builtins:
+                import torch
+                builtins['torch'] = torch
+                print('torch')
+            if 'plt' not in builtins:
+                import matplotlib.plt as plt
+                builtins['plt'] = plt
+                print('plt')
+            if 'skimage' not in builtins:
+                import skimage
+                builtins['skimage'] = skimage
+                print('skimage')
+            if 'Image' not in builtins:
+                import PIL.Image as Image
+                builtins['Image'] = Image
+                print('Image')
+            if 'tqdm' not in builtins:
+                import tqdm
+                builtins['tqdm'] = tqdm
+                print('tqdm')
+            if 'os' not in builtins:
+                import os
+                builtins['os'] = os
+                print('os')
+            if 'sys' not in builtins:
+                import sys
+                builtins['sys'] = sys
+                print('sys')
+            if 'ipdb' not in builtins:
+                import ipdb
+                builtins['ipdb'] = ipdb
+                print('ipdb')
+            if 'colorful' not in builtins:
+                import colorful
+                builtins['colorful'] = colorful
+                print('colorful')
+            if 'sns' not in builtins:
+                import seaborn 
+                builtins['sns'] = seaborn
+                print('sns')
+            if 'inspect' not in builtins:
+                import inspect
+                builtins['inspect'] = inspect
+                print('inspect')
+            if 'dutils' not in builtins:
+                import dutils
+                builtins['dutils'] = dutils
+                print('dutils')
+            if 'argparse' not in builtins:
+                import argparse
+                builtins['argparse'] = argparse
+            if 'time' not in builtins:
+                import time
+                builtins['time'] = time
+
+        print("numpy imported as np")
+    except ImportError:
+        print("ImportError")
+        import ipdb;ipdb.set_trace()
+        pass
+
+
+# Example usage
+#import_numpy_to_builtins()
+
+# Now you can use np as if it were a built-in module
+#print(np.array([1, 2, 3]))
+
