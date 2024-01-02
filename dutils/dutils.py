@@ -336,16 +336,23 @@ def hack(name,default=False,env=None):
    return state
 hack2 = hack
 hardcode2 = hardcode
+def note(message):
+   frame = inspect.currentframe()
+   info = f'{frame.f_back.f_code.co_name}:{frame.f_back.f_lineno}'
+   print(colorful.yellow(f'HACK:{info} {message}'))
+
 class Timer():
-    def __init__(self,name):
+    def __init__(self,name,verbose=True):
         self.name= name
+        self.verbose = verbose
         pass
     def __enter__(self):
         self.tic = time.time()
     def __exit__(self,*args,**kwargs):
         self.toc = time.time()
         self.elapsed = self.toc-self.tic
-        print(colorful.yellow(f'{self.name} took {self.elapsed}'))
+        if self.verbose:
+           print(colorful.yellow(f'{self.name} took {self.elapsed}'))
 
 pause = ipdb.set_trace
 def init():
