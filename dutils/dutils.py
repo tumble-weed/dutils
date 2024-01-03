@@ -342,7 +342,7 @@ def hack(name,default=False,env=None):
    if state:
       frame = inspect.currentframe()
       info = f'{frame.f_back.f_code.co_filename}:{frame.f_back.f_code.co_name}:{frame.f_back.f_lineno}'
-      print(colorful.red(f'HACK:{info} {name}'))
+      print(colorful.red(f'HACK:')+ info + colorful.red(f'{name}'))
    return state
 hack2 = hack
 hardcode2 = hardcode
