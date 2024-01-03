@@ -341,14 +341,14 @@ def hack(name,default=False,env=None):
       state = os.environ.get(env,'0') == '1'
    if state:
       frame = inspect.currentframe()
-      info = f'{frame.f_back.f_code.co_name}:{frame.f_back.f_lineno}'
+      info = f'{frame.f_back.f_code.co_filename}:{frame.f_back.f_code.co_name}:{frame.f_back.f_lineno}'
       print(colorful.red(f'HACK:{info} {name}'))
    return state
 hack2 = hack
 hardcode2 = hardcode
 def note(message):
    frame = inspect.currentframe()
-   info = f'{frame.f_back.f_code.co_name}:{frame.f_back.f_lineno}'
+   info = f'{frame.f_back.f_code.co_filename}:{frame.f_back.f_code.co_name}:{frame.f_back.f_lineno}'
    print(colorful.yellow(f'HACK:{info} {message}'))
 
 class Timer():
