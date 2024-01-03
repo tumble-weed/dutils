@@ -366,6 +366,32 @@ class Timer():
 
 pause = ipdb.set_trace
 def init():
+    init_objects()
+    init_modules()
+def init_objects():
+    builtins = globals()['__builtins__']
+    ''' 
+    essntial_dict = {
+      'np':'numpy',
+      'torch':'torch',
+      'matplotlib':'matplotlib'
+      'plt':'mapl
+    }
+    #'''
+    #try:
+    if True:
+        #if 'np' not in globals():
+        if True:
+            if 'tensor_to_numpy' not in builtins:
+                builtins['tensor_to_numpy'] = tensor_to_numpy
+                print('tensor_to_numpy')
+    #except ImportError:
+    #    print("ImportError")
+    #    import ipdb;ipdb.set_trace()
+    #    pass
+
+
+def init_modules():
     builtins = globals()['__builtins__']
     ''' 
     essntial_dict = {
