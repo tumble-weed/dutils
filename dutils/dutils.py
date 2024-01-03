@@ -349,7 +349,7 @@ hardcode2 = hardcode
 def note(message):
    frame = inspect.currentframe()
    info = f'{frame.f_back.f_code.co_filename}:{frame.f_back.f_code.co_name}:{frame.f_back.f_lineno}'
-   print(colorful.yellow(f'HACK:{info} {message}'))
+   print(colorful.yellow(f'HACK:') + info + colorful.yellow(f'{message}'))
 
 class Timer():
     def __init__(self,name,verbose=True):
