@@ -1,5 +1,4 @@
 import threading
-print('hi')
 # import model.utils 
 ROOT_DIR = '/root/evaluate-saliency-4/GPNN/debug-results'
 import os
