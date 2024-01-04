@@ -67,6 +67,7 @@ def get_numpy_image(img,vmin=None,vmax=None,cmap=None):
         elif img.shape[0] == 3:
             print('got input with 3 channels')
             img = np.transpose(img,(1,2,0))
+    #pause()
     if vmin is not None or vmax is not None:
         if vmin is  None:
             vmin = img.min()
@@ -83,7 +84,7 @@ def get_numpy_image(img,vmin=None,vmax=None,cmap=None):
         if img.min() >= 0 and img.max() <= 1:
             print('got img with values in [0,1] range')
         else:
-            if img.min() <= -100 and img.max() >= 100:
+            if img.min() <= -75 and img.max() >= 100:
                 img = (img + 128)/255.
             print('TODO: figure out what to do with min < 0 and max> 1')
     if cmap is not None:
