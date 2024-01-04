@@ -51,7 +51,7 @@ def img_save(im,filename,ROOT_DIR=ROOT_DIR):
     print(f'saving in {full_filename}')
     model.utils.img_save(im,full_filename)
 '''
-def get_numpy_image(img,cmap=None):
+def get_numpy_image(img,vmin=None,vmax=None,cmap=None):
     if isinstance(img,torch.Tensor):
         img = tensor_to_numpy(img)
     
@@ -67,12 +67,25 @@ def get_numpy_image(img,cmap=None):
         elif img.shape[0] == 3:
             print('got input with 3 channels')
             img = np.transpose(img,(1,2,0))
-    if img.min() >= 0 and img.max() <= 1:
-        print('got img with values in [0,1] range')
+    if vmin is not None or vmax is not None:
+        if vmin is  None:
+            vmin = img.min()
+        if vmax is  None:
+            vmax = img.max()
+        img = (img  - vmin)/(vmax - vmin)
+        if any([
+            np.isinf(img).any(),
+            np.isnan(img).any()
+            ]):
+            dutils.pause()
+
     else:
-        if img.min() <= -100 and img.max() >= 100:
-            img = (img + 128)/255.
-        print('TODO: figure out what to do with min < 0 and max> 1')
+        if img.min() >= 0 and img.max() <= 1:
+            print('got img with values in [0,1] range')
+        else:
+            if img.min() <= -100 and img.max() >= 100:
+                img = (img + 128)/255.
+            print('TODO: figure out what to do with min < 0 and max> 1')
     if cmap is not None:
         if not (img.ndim == 2):
             print(f'ignoring {cmap} as image has 3 channels')
@@ -118,12 +131,13 @@ def write_above_image_and_save(img,savename,text="some text",c='red'):
     
 
 from matplotlib import cm
-def img_save(img, savename,ROOT_DIR=ROOT_DIR,cmap=None,save=True,return_img=False,use_matplotlib=True,syncable=False):
+def img_save(img, savename,ROOT_DIR=ROOT_DIR,vmin=None,vmax=None,cmap=None,save=True,return_img=False,use_matplotlib=True,syncable=False):
     saveroot = os.path.splitext(savename)[0]
     if not os.path.isabs(savename):
         savename = os.path.join(ROOT_DIR,savename)
     if save:
         print(colorful.tan(f"saving {os.path.abspath(savename)}"))
+    """
     '''
     An adaptive image saving method, that works for numpy arrays, torch tensors. Also can accomodate multiple shapes of the input as well as ranges of values    
     '''    
@@ -153,6 +167,8 @@ def img_save(img, savename,ROOT_DIR=ROOT_DIR,cmap=None,save=True,return_img=Fals
             print(f'ignoring {cmap} as image has 3 channels')
         else:
             img = cm.__dict__[cmap](img)
+    """
+    img = get_numpy_image(img,cmap=cmap,vmin=vmin,vmax=vmax)
     if len(os.path.splitext(savename)[-1]) == 0:
         savename = savename + '.png'
     # skimage.io.imsave(savename,img)
