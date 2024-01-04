@@ -26,7 +26,10 @@ UNTESTED = False
 #/root/bigfiles/dataset/VOCdevkit/VOC2007/JPEGImages
 if not os.path.exists(DEBUG_DIR):
     os.makedirs(DEBUG_DIR)
-tensor_to_numpy = lambda t:t.detach().cpu().numpy()
+def tensor_to_numpy(t):
+    if isinstance(t,torch.Tensor):
+        t = t.detach().cpu().numpy()
+    return t
 def sync_to_gdrive(foldername):
     folderbasename = os.path.basename(foldername.rstrip(os.path.sep))
     # oipdb('sync-gdrive')
@@ -48,6 +51,42 @@ def img_save(im,filename,ROOT_DIR=ROOT_DIR):
     print(f'saving in {full_filename}')
     model.utils.img_save(im,full_filename)
 '''
+def get_numpy_image(img,cmap=None):
+    if isinstance(img,torch.Tensor):
+        img = tensor_to_numpy(img)
+    
+    # shape:
+    print('img has shape: ',img.shape)
+    if img.ndim == 4:
+        print('got 4d input, assuming first channel is batch, saving the fist image')
+        img = img[0]
+    if img.ndim == 3:
+        if img.shape[0] == 1:
+            print('got input with 1 channel, assuming grayscale')
+            img = img[0]
+        elif img.shape[0] == 3:
+            print('got input with 3 channels')
+            img = np.transpose(img,(1,2,0))
+    if img.min() >= 0 and img.max() <= 1:
+        print('got img with values in [0,1] range')
+    else:
+        if img.min() <= -100 and img.max() >= 100:
+            img = (img + 128)/255.
+        print('TODO: figure out what to do with min < 0 and max> 1')
+    if cmap is not None:
+        if not (img.ndim == 2):
+            print(f'ignoring {cmap} as image has 3 channels')
+        else:
+            img = cm.__dict__[cmap](img)
+
+    return img
+def imshow(imlike,cmap=None,close=True):
+    im = get_numpy_image(imlike,cmap=cmap)
+    plt.figure()
+    plt.imshow(imlike)
+    plt.show()
+    if close:
+        plt.close()
 def write_above_image_and_save(img,savename,text="some text",c='red'):
     # %matplotlib inline
     from skimage.draw import rectangle
@@ -503,6 +542,7 @@ class trunciter():
         item = next(self.iter0)
         if self.enabled:
             if self.i >= self.max_iter:
+                print(colorful.red(f'stopping iteration at {self.i}'))
                 raise StopIteration
         self.i += 1
         return item
