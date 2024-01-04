@@ -135,8 +135,6 @@ def img_save(img, savename,ROOT_DIR=ROOT_DIR,vmin=None,vmax=None,cmap=None,save=
     saveroot = os.path.splitext(savename)[0]
     if not os.path.isabs(savename):
         savename = os.path.join(ROOT_DIR,savename)
-    if save:
-        print(colorful.tan(f"saving {os.path.abspath(savename)}"))
     """
     '''
     An adaptive image saving method, that works for numpy arrays, torch tensors. Also can accomodate multiple shapes of the input as well as ranges of values    
@@ -173,6 +171,11 @@ def img_save(img, savename,ROOT_DIR=ROOT_DIR,vmin=None,vmax=None,cmap=None,save=
         savename = savename + '.png'
     # skimage.io.imsave(savename,img)
     savename = os.path.abspath(savename)
+    if save:
+        print(colorful.tan(f"saving {savename}"))
+        as_url = 'http://localhost:1000'+ savename.split('/root')[-1]
+        print(colorful.tan(f"saving {as_url}"))
+
     img = img.astype(np.float32)
     if use_matplotlib:
         img_with_text = write_above_image_and_save(img,savename,text=saveroot,c='red')
@@ -181,7 +184,8 @@ def img_save(img, savename,ROOT_DIR=ROOT_DIR,vmin=None,vmax=None,cmap=None,save=
     if save:
         os.makedirs(os.path.dirname(savename),exist_ok=True)
         skimage.io.imsave(savename,img_with_text)
-        print(colorful.salmon(savename))
+        #print(colorful.salmon(savename))
+        pause()
     if SYNC:
         if syncable:
             sync_to_gdrive(SYNC_DIR)        
