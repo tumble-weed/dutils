@@ -462,6 +462,15 @@ def init_modules():
             if 'time' not in builtins:
                 import time
                 builtins['time'] = time
+            if 'pickle' not in builtins:
+                import pickle
+                builtins['pickle'] = pickle
+            if 'lzma' not in builtins:
+                import lzma
+                builtins['lzma'] = lzma
+            if 'glob' not in builtins:
+                import glob
+                builtins['glob'] = glob
 
         print("numpy imported as np")
     except ImportError:
@@ -469,6 +478,13 @@ def init_modules():
         import ipdb;ipdb.set_trace()
         pass
 
+# class Check():
+#     def __init__(self, do=[],dont=[]):
+#         pass
+#     def do(self):
+#         pass
+#     def 
+# dutils.checker  = Check()
 
 # Example usage
 #import_numpy_to_builtins()
@@ -476,3 +492,22 @@ def init_modules():
 # Now you can use np as if it were a built-in module
 #print(np.array([1, 2, 3]))
 
+class trunciter():
+    def __init__(self,iterable,enabled=False,max_iter=None):
+        self.iter0 = iter(iterable)
+        self.enabled = enabled
+        self.max_iter = max_iter
+        self.i = 0
+        pass
+    def __next__(self):
+        item = next(self.iter0)
+        if self.enabled:
+            if self.i >= self.max_iter:
+                raise StopIteration
+        self.i += 1
+        return item
+    def __iter__(self):
+        return self
+    def __len__(self):
+        return len(self.iter0)
+        pass
