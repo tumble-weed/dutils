@@ -173,7 +173,7 @@ def img_save(img, savename,ROOT_DIR=ROOT_DIR,vmin=None,vmax=None,cmap=None,save=
     savename = os.path.abspath(savename)
     if save:
         print(colorful.tan(f"saving {savename}"))
-        as_url = 'http://localhost:1000'+ savename.split('/root')[-1]
+        as_url = 'http://localhost:10000'+ savename.split('/root')[-1]
         print(colorful.tan(f"saving {as_url}"))
 
     img = img.astype(np.float32)
