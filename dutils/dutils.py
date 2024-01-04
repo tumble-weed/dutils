@@ -172,13 +172,16 @@ def img_save(img, savename,ROOT_DIR=ROOT_DIR,vmin=None,vmax=None,cmap=None,save=
     if len(os.path.splitext(savename)[-1]) == 0:
         savename = savename + '.png'
     # skimage.io.imsave(savename,img)
+    savename = os.path.abspath(savename)
     img = img.astype(np.float32)
     if use_matplotlib:
         img_with_text = write_above_image_and_save(img,savename,text=saveroot,c='red')
     else:
         img_with_text = img
     if save:
+        os.makedirs(os.path.dirname(savename),exist_ok=True)
         skimage.io.imsave(savename,img_with_text)
+        print(colorful.salmon(savename))
     if SYNC:
         if syncable:
             sync_to_gdrive(SYNC_DIR)        
