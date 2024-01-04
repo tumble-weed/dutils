@@ -185,7 +185,7 @@ def img_save(img, savename,ROOT_DIR=ROOT_DIR,vmin=None,vmax=None,cmap=None,save=
         os.makedirs(os.path.dirname(savename),exist_ok=True)
         skimage.io.imsave(savename,img_with_text)
         #print(colorful.salmon(savename))
-        pause()
+        #pause()
     if SYNC:
         if syncable:
             sync_to_gdrive(SYNC_DIR)        
