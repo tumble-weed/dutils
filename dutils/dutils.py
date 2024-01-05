@@ -353,6 +353,8 @@ def savefig(fig,basename):
     else:
         fname = os.path.join(ROOT_DIR,basename+'.png')
     print(colorful.tan(fname))
+    as_url = 'http://localhost:10000/'+ fname[len('/root'):]
+    print(colorful.tan(as_url))
     plt.savefig(fname)
     plt.close()
     pass
@@ -575,3 +577,21 @@ class trunciter():
     def __len__(self):
         return len(self.iter0)
         pass
+def get_caller_namespace(n_levels_above=2):
+    frame = inspect.currentframe()
+    f_required = frame.f_back
+    for i in range(n_levels_above-1):
+        f_required = f_required.f_back
+    ns = f_required.f_locals
+    #..............................................
+    if 'self' in ns:
+        
+        ns['self_'] = ns['self']
+        del ns['self']
+    for k in ns:
+        if k.startswith('__') and k.endswith('__'):
+            del ns[k]
+    #..............................................
+    ns = argparse.Namespace(**ns)
+    return ns
+
