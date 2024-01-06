@@ -594,4 +594,17 @@ def get_caller_namespace(n_levels_above=2):
     #..............................................
     ns = argparse.Namespace(**ns)
     return ns
+'''
+class open(fname,mode):
+    def __init__(self,fname,mode):
+        self.fname = fname
+        self.mode = mode
+    def __enter__(self,*args,**kwargs):
+        if 'w' in mode:
 
+        else:
+
+        pass
+    def __exit__(self,*args,**kwargs):
+        pass
+'''     
