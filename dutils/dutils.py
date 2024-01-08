@@ -616,6 +616,9 @@ class ConditionalIPdb(Pdb):
         # Check if the environment flag is set
         if flag_env_var is not None and os.environ.get(flag_env_var):
             print(flag_env_var)
-            super().set_trace()
+            #super().set_trace()
+            self.reset()
+            self._set_stopinfo()
+            self.interaction(None, None)            
 ipdb2 = ConditionalIPdb()
 pause2 = ipdb2.set_trace
