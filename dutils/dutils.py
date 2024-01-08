@@ -608,3 +608,12 @@ class open(fname,mode):
     def __exit__(self,*args,**kwargs):
         pass
 '''     
+import os
+from IPython.core.debugger import Pdb
+
+class ConditionalIPdb(Pdb):
+    def set_trace(self, flag_env_var=None):
+        # Check if the environment flag is set
+        if flag_env_var is not None and os.environ.get(flag_env_var):
+            print(flag_env_var)
+            super().set_trace()
