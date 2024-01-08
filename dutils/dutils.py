@@ -615,15 +615,22 @@ class ConditionalIPdb(Pdb):
     def set_trace(self, flag_env_var=None):
         # Check if the environment flag is set
         if flag_env_var is not None and os.environ.get(flag_env_var):
-            print(flag_env_var)
+
+            print(f'stopping as {flag_env_var} as set')
+            '''
             #super().set_trace()
             self.reset()
-            self._set_stopinfo(None,None)
-            if self.stack:
+            #self._set_stopinfo(None,None)
+            pause()
+            if self.stack and 0 <= self.curindex < len(self.stack):
                 self.curframe = self.stack[self.curindex][0]
                 self._set_stopinfo(self.curframe, None)
             else:
                 self.curframe = None            
             self.interaction(None, None)            
+            '''
+            # https://github.com/ipython/ipython/blob/fd2cf18f8109637662faf70862a84594625b132a/IPython/core/debugger.py#L1120C5-L1120C53
+            dutils.pause()
+            Pdb().set_trace(sys._getframe().f_back)
 ipdb2 = ConditionalIPdb()
 pause2 = ipdb2.set_trace
