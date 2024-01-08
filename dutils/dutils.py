@@ -618,7 +618,12 @@ class ConditionalIPdb(Pdb):
             print(flag_env_var)
             #super().set_trace()
             self.reset()
-            self._set_stopinfo()
+            self._set_stopinfo(None,None)
+            if self.stack:
+                self.curframe = self.stack[self.curindex][0]
+                self._set_stopinfo(self.curframe, None)
+            else:
+                self.curframe = None            
             self.interaction(None, None)            
 ipdb2 = ConditionalIPdb()
 pause2 = ipdb2.set_trace
