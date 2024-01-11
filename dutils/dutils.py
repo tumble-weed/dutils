@@ -614,7 +614,8 @@ from IPython.core.debugger import Pdb
 class ConditionalIPdb(Pdb):
     def set_trace(self, flag_env_var=None):
         # Check if the environment flag is set
-        if flag_env_var is not None and os.environ.get(flag_env_var):
+        flag = os.environ.get(flag_env_var,False)
+        if flag == '1':
 
             print(f'stopping as {flag_env_var} as set')
             '''
@@ -630,7 +631,14 @@ class ConditionalIPdb(Pdb):
             self.interaction(None, None)            
             '''
             # https://github.com/ipython/ipython/blob/fd2cf18f8109637662faf70862a84594625b132a/IPython/core/debugger.py#L1120C5-L1120C53
-            dutils.pause()
+            # dutils.pause()
             Pdb().set_trace(sys._getframe().f_back)
 ipdb2 = ConditionalIPdb()
 pause2 = ipdb2.set_trace
+def in_limits(t,min=None,max=None):
+    flag = True
+    if min is not None:
+        flag = flag and (t.min() >= min)
+    if max is not None:
+        flag = flag and  (t.max() <= max)
+    return flag

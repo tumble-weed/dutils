@@ -6,4 +6,4 @@ ipdb
 colorful
 seaborn
 tqdm
-
+opencv-python
