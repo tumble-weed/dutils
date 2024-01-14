@@ -667,5 +667,5 @@ class If(Pdb):
                 # https://github.com/ipython/ipython/blob/fd2cf18f8109637662faf70862a84594625b132a/IPython/core/debugger.py#L1120C5-L1120C53
                 # dutils.pause()
                 Pdb().set_trace(sys._getframe().f_back)
-if_ = If()
+if_ = If().set_trace
 
