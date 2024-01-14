@@ -651,7 +651,7 @@ class If(Pdb):
         assert flag_env_var is not None,f'flag_env_var should not be {flag_env_var}'
         flag = os.environ.get(flag_env_var,False)
         if flag == '1':
-            if not flag:
+            if not cond:
                 print(f'stopping as {flag_env_var} as set')
                 '''
                 #super().set_trace()
