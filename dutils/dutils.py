@@ -644,9 +644,7 @@ def in_limits(t,min=None,max=None):
     return flag
 
 class If(Pdb):
-    def set_trace(self, cond,flag_env_var=None,on=False):
-        if not on:
-            return cond
+    def set_trace(self, cond,flag_env_var=None):
         # Check if the environment flag is set
         assert flag_env_var is not None,f'flag_env_var should not be {flag_env_var}'
         flag = os.environ.get(flag_env_var,False)
@@ -668,5 +666,6 @@ class If(Pdb):
                 # https://github.com/ipython/ipython/blob/fd2cf18f8109637662faf70862a84594625b132a/IPython/core/debugger.py#L1120C5-L1120C53
                 # dutils.pause()
                 Pdb().set_trace(sys._getframe().f_back)
+        return cond
 if_ = If().set_trace
 
