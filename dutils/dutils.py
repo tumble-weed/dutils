@@ -642,3 +642,30 @@ def in_limits(t,min=None,max=None):
     if max is not None:
         flag = flag and  (t.max() <= max)
     return flag
+
+class If(Pdb):
+    def set_trace(self, cond,flag_env_var=None,on=False):
+        if not on:
+            return cond
+        # Check if the environment flag is set
+        flag = os.environ.get(flag_env_var,False)
+        if flag == '1':
+            if not flag:
+                print(f'stopping as {flag_env_var} as set')
+                '''
+                #super().set_trace()
+                self.reset()
+                #self._set_stopinfo(None,None)
+                pause()
+                if self.stack and 0 <= self.curindex < len(self.stack):
+                    self.curframe = self.stack[self.curindex][0]
+                    self._set_stopinfo(self.curframe, None)
+                else:
+                    self.curframe = None            
+                self.interaction(None, None)            
+                '''
+                # https://github.com/ipython/ipython/blob/fd2cf18f8109637662faf70862a84594625b132a/IPython/core/debugger.py#L1120C5-L1120C53
+                # dutils.pause()
+                Pdb().set_trace(sys._getframe().f_back)
+if_ = If()
+
