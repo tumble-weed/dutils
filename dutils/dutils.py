@@ -648,6 +648,7 @@ class If(Pdb):
         if not on:
             return cond
         # Check if the environment flag is set
+        assert flag_env_var is not None,f'flag_env_var should not be {flag_env_var}'
         flag = os.environ.get(flag_env_var,False)
         if flag == '1':
             if not flag:
