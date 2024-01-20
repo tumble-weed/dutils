@@ -430,6 +430,7 @@ class Timer():
            print(colorful.yellow(f'{self.name} took {self.elapsed}'))
 
 pause = ipdb.set_trace
+pauseonce = ipdb.set_trace
 def init():
     init_objects()
     init_modules()
