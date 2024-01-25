@@ -179,6 +179,7 @@ def img_save(img, savename,ROOT_DIR=ROOT_DIR,vmin=None,vmax=None,cmap=None,save=
 
     img = img.astype(np.float32)
     if use_matplotlib:
+        import ipdb;ipdb.set_trace()
         img_with_text = write_above_image_and_save(img,savename,text=saveroot,c='red')
     else:
         img_with_text = img
