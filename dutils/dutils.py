@@ -57,6 +57,11 @@ def get_numpy_image(img,vmin=None,vmax=None,cmap=None):
     
     # shape:
     print('img has shape: ',img.shape)
+    # 224,224
+    # 224,224,3
+    # 1,3,224,224
+    # 1,1,224,224
+    # numpy array
     if img.ndim == 4:
         print('got 4d input, assuming first channel is batch, saving the fist image')
         img = img[0]
@@ -167,6 +172,17 @@ def img_save(img, savename,ROOT_DIR=ROOT_DIR,vmin=None,vmax=None,cmap=None,save=
         else:
             img = cm.__dict__[cmap](img)
     """
+    save_all = hardcode(save_all=False)
+    if save_all:
+        if img.ndim == 2:
+            if isinstance(img, torch.Tensor):
+               # 224,224 --> 1,224,224
+                img = img[None,...]
+            elif isinstance(img,np.ndarray):
+                img = img[None,...]
+        elif img.ndim == 1:
+            assert False,''
+
     img = get_numpy_image(img,cmap=cmap,vmin=vmin,vmax=vmax)
     if len(os.path.splitext(savename)[-1]) == 0:
         savename = savename + '.png'
