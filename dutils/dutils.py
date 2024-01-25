@@ -173,41 +173,78 @@ def img_save(img, savename,ROOT_DIR=ROOT_DIR,vmin=None,vmax=None,cmap=None,save=
             img = cm.__dict__[cmap](img)
     """
     save_all = hardcode(save_all=False)
+    '''
     if save_all:
         if img.ndim == 2:
             if isinstance(img, torch.Tensor):
-               # 224,224 --> 1,224,224
+                # 224,224 --> 1,224,224
                 img = img[None,...]
             elif isinstance(img,np.ndarray):
                 img = img[None,...]
         elif img.ndim == 1:
-            assert False,''
+            assert False,'img.ndim == 1'
+    '''
+    if img.ndim == 2:
+        if isinstance(img, torch.Tensor):
+            # 224,224 --> 1,224,224
+            img = img[None,...]
+        elif isinstance(img,np.ndarray):
+            img = img[None,...]
+    elif img.ndim == 1:
+        assert False,'img.ndim == 1'
+    # img (5,3,224,224)
+    # img (5,224,224,3)
+    # img (5,224,224)
+    # img (224,224) --> (1,224,224)
+    # img (3,224,224)?
+    if img.ndim == 3 and img.shape[0] == 3:
+        print(colorful.red(f'ambiguous, img_shape is {img.shape}. not sure if first channel is batch or rgb'))
+    nimages = img.shape[0]
+    savename0 = savename
+    for i in range(nimages):
+        imgi = get_numpy_image(img[i:i+1],cmap=cmap,vmin=vmin,vmax=vmax)
+        savename = savename0
+        if len(os.path.splitext(savename)[-1]) == 0:
+            savename = savename + '.png'
+        if save_all:
+           # myimg.png --> myimg0.png,myimg1.png etc.
+           # if nimages ==1 do we want myimg0 or do we just want mmyimg.png?
+           if nimages == 1:
+               pass
+           else:
+               parts = os.path.splitext(savename)
+               # parts = ['myimg','png']
+               parts[0] = parts[0] + str(i)
+               # parts = ['myimg0','png']
+               savename = parts[0] +  parts[1]
 
-    img = get_numpy_image(img,cmap=cmap,vmin=vmin,vmax=vmax)
-    if len(os.path.splitext(savename)[-1]) == 0:
-        savename = savename + '.png'
-    # skimage.io.imsave(savename,img)
-    savename = os.path.abspath(savename)
-    if save:
-        print(colorful.tan(f"saving {savename}"))
-        as_url = 'http://localhost:10000'+ savename.split('/root')[-1]
-        print(colorful.tan(f"saving {as_url}"))
+        # skimage.io.imsave(savename,img)
+        savename = os.path.abspath(savename)
+        if save:
+            print(colorful.tan(f"saving {savename}"))
+            as_url = 'http://localhost:10000'+ savename.split('/root')[-1]
+            print(colorful.tan(f"saving {as_url}"))
 
-    img = img.astype(np.float32)
-    if use_matplotlib:
-        img_with_text = write_above_image_and_save(img,savename,text=saveroot,c='red')
-    else:
-        img_with_text = img
-    if save:
-        os.makedirs(os.path.dirname(savename),exist_ok=True)
-        skimage.io.imsave(savename,img_with_text)
-        #print(colorful.salmon(savename))
-        #pause()
+        imgi = imgi.astype(np.float32)
+        if use_matplotlib:
+            img_with_text = write_above_image_and_save(imgi,savename,text=saveroot,c='red')
+        else:
+            img_with_text = imgi
+        if i == 0:
+            img_with_text0 = img_with_text
+        if save:
+            os.makedirs(os.path.dirname(savename),exist_ok=True)
+            skimage.io.imsave(savename,img_with_text)
+            #print(colorful.salmon(savename))
+            #pause()
+        if not save_all:
+            break
     if SYNC:
         if syncable:
             sync_to_gdrive(SYNC_DIR)        
+
     if return_img:
-        return img_with_text
+        return img_with_text0
 def img_dict_save(im_dict,savename,ROOT_DIR=ROOT_DIR,cmap=None):
     savename = os.path.join(ROOT_DIR,savename)
     new_im_dict = {}
