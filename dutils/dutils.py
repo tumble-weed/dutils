@@ -137,6 +137,12 @@ def write_above_image_and_save(img,savename,text="some text",c='red'):
     
 
 from matplotlib import cm
+def get_img_save(savedir):
+    def img_save2(img, savename,ROOT_DIR=savedir,vmin=None,vmax=None,cmap=None,save=True,return_img=False,use_matplotlib=True,syncable=False):
+        return img_save(img, savename,ROOT_DIR=ROOT_DIR,vmin=None,vmax=None,cmap=None,save=True,return_img=False,use_matplotlib=True,syncable=False)
+    return img_save2
+
+
 def img_save(img, savename,ROOT_DIR=ROOT_DIR,vmin=None,vmax=None,cmap=None,save=True,return_img=False,use_matplotlib=True,syncable=False):
     saveroot = os.path.splitext(savename)[0]
     if not os.path.isabs(savename):
