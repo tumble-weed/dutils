@@ -737,4 +737,8 @@ class If(Pdb):
                 Pdb().set_trace(sys._getframe().f_back)
         return cond
 if_ = If().set_trace
-
+def isbad(a):
+    if isinstance(a,torch.Tensor):
+        return a.isnan().any() or a.isinf().any()
+    else:
+        return np.isnan(a).any() or np.isinf(a).any()
