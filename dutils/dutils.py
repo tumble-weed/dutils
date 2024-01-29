@@ -490,6 +490,8 @@ class Timer():
 
 pause = ipdb.set_trace
 pauseonce = ipdb.set_trace
+p45 = pause
+p46 = pauseonce
 def init():
     init_objects()
     init_modules()
@@ -596,6 +598,13 @@ def init_modules():
             if 'glob' not in builtins:
                 import glob
                 builtins['glob'] = glob
+            if 'json' not in builtins:
+                import json
+                builtins['json'] = glob
+            if 'p45' not in builtins:
+                builtins['p45'] = p45
+            if 'p46' not in builtins:
+                builtins['p46'] = p46
 
         print("numpy imported as np")
     except ImportError:
