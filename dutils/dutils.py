@@ -490,8 +490,10 @@ class Timer():
 
 pause = ipdb.set_trace
 pauseonce = ipdb.set_trace
+pausetodo = ipdb.set_trace
 p45 = pause
 p46 = pauseonce
+p47 = pausetodo
 def init():
     init_objects()
     init_modules()
