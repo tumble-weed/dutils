@@ -607,6 +607,8 @@ def init_modules():
                 builtins['p45'] = p45
             if 'p46' not in builtins:
                 builtins['p46'] = p46
+            if 'p47' not in builtins:
+                builtins['p47'] = p47
 
         print("numpy imported as np")
     except ImportError:
