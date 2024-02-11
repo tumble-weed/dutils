@@ -420,6 +420,7 @@ def savefig(fig,basename):
     plt.close()
     pass
 def run_in_another_thread(f,args=[],debug=False):
+    p47()
     if debug or os.environ.get('DUTILS_DISABLE_SAVE_THREAD',False) == '1':
         f(*args)
     else:
