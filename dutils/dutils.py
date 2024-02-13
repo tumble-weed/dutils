@@ -748,3 +748,16 @@ def isbad(a):
         return a.isnan().any() or a.isinf().any()
     else:
         return np.isnan(a).any() or np.isinf(a).any()
+class reach():
+    def __init__(self,env):
+        self.env = env
+        self.reached = False
+        pass
+    def __enter__(self,*args,**kwargs):
+        pass
+    def __call__(self):
+        self.reached = True
+    def __exit__(self,*args,**kwargs):
+        if not self.reached:
+            p45()
+        pass
