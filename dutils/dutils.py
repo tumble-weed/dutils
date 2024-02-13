@@ -754,7 +754,7 @@ class reach():
         self.reached = False
         pass
     def __enter__(self,*args,**kwargs):
-        pass
+        return self
     def __call__(self):
         self.reached = True
     def __exit__(self,*args,**kwargs):
