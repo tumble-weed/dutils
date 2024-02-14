@@ -766,6 +766,6 @@ class reach():
     def __call__(self):
         self.reached = True
     def __exit__(self,*args,**kwargs):
-        if not self.reached:
+        if os.environ.get(self.env,False) == '1' and not self.reached:
             p45()
         pass
