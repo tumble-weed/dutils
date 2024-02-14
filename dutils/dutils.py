@@ -21,8 +21,9 @@ PASCAL_IMAGE_ROOT = os.path.join(PASCAL_ROOT,'VOC2007','JPEGImages')
 ALWAYS = True
 NEVER = False
 TODO = None
-class TODO_obj():
+class TODO_class():
     pass
+TODO_obj = TODO_class()
 UNTESTED = False
 #=====================================
 #/root/bigfiles/dataset/VOCdevkit/VOC2007/JPEGImages
