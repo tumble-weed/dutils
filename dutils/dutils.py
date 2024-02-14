@@ -21,10 +21,17 @@ PASCAL_IMAGE_ROOT = os.path.join(PASCAL_ROOT,'VOC2007','JPEGImages')
 ALWAYS = True
 NEVER = False
 TODO = None
+UNTESTED = False
 class TODO_class():
     pass
 TODO_obj = TODO_class()
-UNTESTED = False
+#=====================================
+def remove_missing_args(kwargs):
+    kwargs2 = {}
+    for k,v in kwargs.items():
+        if v != TODO_obj:
+            kwargs2[k] = v
+    return kwargs2
 #=====================================
 #/root/bigfiles/dataset/VOCdevkit/VOC2007/JPEGImages
 if not os.path.exists(DEBUG_DIR):
