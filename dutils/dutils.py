@@ -774,11 +774,11 @@ class reach():
         pass
 import lzma
 import pickle
-def read_torchray_result(pklname):
+def read_torchray_result(pklname,savename='saliency.png'):
     #print(pklname)
     #return 0
     with lzma.open(pklname,'rb') as f:
         loaded = pickle.load(f)
     saliency = loaded['saliency']
-    img_save(saliency,'saliency.png')
+    img_save(saliency,savename)
 
