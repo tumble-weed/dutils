@@ -769,6 +769,7 @@ class reach():
         if os.environ.get(self.env,False) == '1' and not self.reached:
             p45()
         pass
+import lzma
 def read_torchray_result(pklname):
     #print(pklname)
     #return 0
