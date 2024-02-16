@@ -777,5 +777,5 @@ def read_torchray_result(pklname):
     with lzma.open(pklname,'rb') as f:
         loaded = pickle.load(f)
     saliency = loaded['saliency']
-    img_save2(saliency,'saliency.png')
+    img_save(saliency,'saliency.png')
 
