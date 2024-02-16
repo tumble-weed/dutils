@@ -770,7 +770,8 @@ class reach():
             p45()
         pass
 def read_torchray_result(pklname):
-    
+    print(pklname)
+    return 0
     with lzma.open(pklname,'rb') as f:
         loaded = pickle.load(f)
     saliency = loaded['saliency']
