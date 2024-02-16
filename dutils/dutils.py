@@ -770,6 +770,7 @@ class reach():
             p45()
         pass
 import lzma
+import pickle
 def read_torchray_result(pklname):
     #print(pklname)
     #return 0
