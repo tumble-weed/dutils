@@ -545,7 +545,12 @@ def init_modules():
     #'''
     try:
         #if 'np' not in globals():
+        module_dict = {'Ipython':'Ipython'}
         if True:
+            for usename,importname in module_dict.items():
+                #! import module by name
+                builtins[usename] = importlib.import_module(importname)
+                
             if 'np' not in builtins:
                 import numpy as np
                 builtins['np'] = np
@@ -751,6 +756,7 @@ class If(Pdb):
                 '''
                 # https://github.com/ipython/ipython/blob/fd2cf18f8109637662faf70862a84594625b132a/IPython/core/debugger.py#L1120C5-L1120C53
                 # dutils.pause()
+                #! how to set up a bp in the previous function
                 Pdb().set_trace(sys._getframe().f_back)
         return cond
 if_ = If().set_trace
