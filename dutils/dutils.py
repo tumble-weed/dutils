@@ -239,7 +239,7 @@ def img_save(img, savename,ROOT_DIR=ROOT_DIR,vmin=None,vmax=None,cmap=None,save=
         if save:
             print(colorful.tan(f"saving {savename}"))
             #http_prefix = 'http://localhost:10000'
-            http_prefix = 'http://0.tcp.jp.ngrok.io:10791'
+            http_prefix = 'http://0.tcp.us-cal-1.ngrok.io:13553'
 
             as_url = http_prefix+ savename.split('/root')[-1]
             print(colorful.tan(f"saving {as_url}"))
@@ -545,7 +545,7 @@ def init_modules():
     #'''
     try:
         #if 'np' not in globals():
-        module_dict = {'Ipython':'Ipython'}
+        module_dict = {'IPython':'IPython'}
         if True:
             for usename,importname in module_dict.items():
                 #! import module by name
