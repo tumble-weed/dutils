@@ -527,6 +527,14 @@ def init_objects():
             if 'tensor_to_numpy' not in builtins:
                 builtins['tensor_to_numpy'] = tensor_to_numpy
                 print('tensor_to_numpy')
+        obj_dict = {'pause2':'pause2',
+'p45':'p45',
+'p47':'p47',
+'p46':'p46',
+        }
+        for obj in obj_dict:
+            if obj not in builtins:
+                builtins[obj] = globals()[obj_dict[obj]]
     #except ImportError:
     #    print("ImportError")
     #    import ipdb;ipdb.set_trace()
@@ -621,12 +629,12 @@ def init_modules():
             if 'json' not in builtins:
                 import json
                 builtins['json'] = glob
-            if 'p45' not in builtins:
-                builtins['p45'] = p45
-            if 'p46' not in builtins:
-                builtins['p46'] = p46
-            if 'p47' not in builtins:
-                builtins['p47'] = p47
+            #if 'p45' not in builtins:
+            #    builtins['p45'] = p45
+            #if 'p46' not in builtins:
+            #    builtins['p46'] = p46
+            #if 'p47' not in builtins:
+            #    builtins['p47'] = p47
 
         print("numpy imported as np")
     except ImportError:
