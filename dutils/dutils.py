@@ -495,6 +495,7 @@ class Timer():
         pass
     def __enter__(self):
         self.tic = time.time()
+        return self
     def __exit__(self,*args,**kwargs):
         self.toc = time.time()
         self.elapsed = self.toc-self.tic
