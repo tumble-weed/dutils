@@ -238,8 +238,8 @@ def img_save(img, savename,ROOT_DIR=ROOT_DIR,vmin=None,vmax=None,cmap=None,save=
         savename = os.path.abspath(savename)
         if save:
             print(colorful.tan(f"saving {savename}"))
-            #http_prefix = 'http://localhost:10000'
-            http_prefix = 'http://0.tcp.us-cal-1.ngrok.io:13553'
+            http_prefix = 'http://localhost:10000'
+            #http_prefix = 'http://0.tcp.us-cal-1.ngrok.io:13553'
 
             as_url = http_prefix+ savename.split('/root')[-1]
             print(colorful.tan(f"saving {as_url}"))
