@@ -8,6 +8,7 @@ import skimage.io
 #import dutils
 import inspect
 import ipdb
+import torchvision.utils as vutils
 DEBUG_DIR = 'debugging'
 SAVE_DIR = DEBUG_DIR
 SYNC = False
