@@ -152,7 +152,24 @@ def get_img_save(savedir):
         return img_save(img, savename,ROOT_DIR=ROOT_DIR,vmin=None,vmax=None,cmap=None,save=True,return_img=False,use_matplotlib=True,syncable=False)
     return img_save2
 
+def img_grid_save(img_t,savename,ROOT_DIR=ROOT_DIR,use_matplotlib=True,save=True,cmap=None):
+    img_t_grid = vutils.make_grid(img_t)
+    img_save(img_t_grid, savename,ROOT_DIR=ROOT_DIR,cmap=cmap,save=save,use_matplotlib=use_matplotlib)
+    """
+    saveroot = os.path.splitext(savename)[0]
+    if not os.path.isabs(savename):
+        savename = os.path.join(ROOT_DIR,savename)
+    #===========================================
+    print(colorful.tan(f"saving {savename}"))
+    http_prefix = 'http://localhost:10000'
+    #http_prefix = 'http://0.tcp.us-cal-1.ngrok.io:13553'
 
+    as_url = http_prefix+ savename.split('/root')[-1]
+    print(colorful.tan(f"saving {as_url}"))
+    #===========================================
+
+    #===========================================
+    """
 def img_save(img, savename,ROOT_DIR=ROOT_DIR,vmin=None,vmax=None,cmap=None,save=True,return_img=False,use_matplotlib=True,syncable=False):
     saveroot = os.path.splitext(savename)[0]
     if not os.path.isabs(savename):
