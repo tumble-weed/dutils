@@ -650,7 +650,6 @@ def init_modules():
                 import json
                 builtins['json'] = json
             if 'importlib' not in builtins:
-                import importlib
                 builtins['importlib'] = importlib
             #if 'p45' not in builtins:
             #    builtins['p45'] = p45
@@ -829,9 +828,8 @@ def import_by_filepath(file_path,module_name):
 
 # Create a new module based on the specification
     module = importlib.util.module_from_spec(spec)
-
+    spec.loader.exec_module(module)    
 # Execute the module to load it
     #exec(compile(spec.loader.get_source(file_path), file_path, 'exec'), module.__dict__)
     sys.modules[module_name] = module
-    spec.loader.exec_module(module)    
     return module
