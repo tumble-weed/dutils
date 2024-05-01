@@ -648,7 +648,10 @@ def init_modules():
                 builtins['glob'] = glob
             if 'json' not in builtins:
                 import json
-                builtins['json'] = glob
+                builtins['json'] = json
+            if 'importlib' not in builtins:
+                import importlib
+                builtins['importlib'] = importlib
             #if 'p45' not in builtins:
             #    builtins['p45'] = p45
             #if 'p46' not in builtins:
