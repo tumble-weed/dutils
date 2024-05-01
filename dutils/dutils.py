@@ -836,6 +836,6 @@ def read_torchray_result(pklname,savename='saliency.png'):
 
 
 def import_by_filepath(file_path,module_name):
-    import pydoc
+    from pydoc import importfile
     module = importfile(file_path)
     return module
