@@ -815,4 +815,20 @@ def read_torchray_result(pklname,savename='saliency.png'):
         loaded = pickle.load(f)
     saliency = loaded['saliency']
     img_save(saliency,savename)
+def import_by_filepath(file_path,module_name):
+    import importlib.util
 
+# Get the absolute path of the file
+    file_path = os.path.abspath(file_path)
+
+# Create a module specification from the file location
+    spec = importlib.util.spec_from_file_location(module_name, file_path)
+
+# Create a new module based on the specification
+    module = importlib.util.module_from_spec(spec)
+
+# Execute the module to load it
+    #exec(compile(spec.loader.get_source(file_path), file_path, 'exec'), module.__dict__)
+    sys.modules[module_name] = module
+    spec.loader.exec_module(module)    
+    return module
