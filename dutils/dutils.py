@@ -839,3 +839,6 @@ def import_by_filepath(file_path,module_name):
     from pydoc import importfile
     module = importfile(file_path)
     return module
+def simple_normalize(t):
+    tn = (t - t.min())/(t.max() - t.min())
+    return tn
