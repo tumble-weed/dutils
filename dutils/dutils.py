@@ -840,5 +840,29 @@ def import_by_filepath(file_path,module_name):
     module = importfile(file_path)
     return module
 def simple_normalize(t):
-    tn = (t - t.min())/(t.max() - t.min())
+    m = t.min()
+    M = t.max()
+    fuzz = 0
+    if m == M:
+        fuzz = 1e-8
+    tn = (t - t.min())/(t.max() - t.min() + fuzz)
     return tn
+
+def verboseiter(**kwargs):
+    name = list(kwargs.keys())[0]
+    iterable = list(kwargs.values())[0]
+    # for name,iterable in kwargs.items():        
+    #     print(f'{name}:{value}')
+    
+    class MyIter():
+        def __init__(self,name,iterable):
+            self.iterable = iterable
+            self.name = name
+        def __iter__(self):
+            self.iter_ = iter(self.iterable)
+            return self
+        def __next__(self):
+            val = next(self.iter_)
+            print(f'{self.name}:{val}')
+            return val
+    return MyIter(name,iterable)
