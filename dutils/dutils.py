@@ -868,3 +868,16 @@ def verboseiter(**kwargs):
             print(f'{self.name}:{val}')
             return val
     return MyIter(name,iterable)
+
+def get_imagenet_model_and_transform():
+    from torchvision.models import resnet50
+    model = resnet50(pretrained=True)
+    model.eval()
+    mean=[0.485, 0.456, 0.406]
+    std=[0.229, 0.224, 0.225]
+    transform = torchvision.transforms.Compose(
+        torchvision.transforms.Resize(224),
+        torchvision.transforms.ToTensor(),
+        torchvision.transforms.Normalize(mean=mean,std=std),
+    )
+    return model,transform
