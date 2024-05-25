@@ -9,6 +9,7 @@ import skimage.io
 import inspect
 import ipdb
 import torchvision.utils as vutils
+import torchvision
 DEBUG_DIR = 'debugging'
 SAVE_DIR = DEBUG_DIR
 SYNC = False
@@ -258,10 +259,14 @@ def img_save(img, savename,ROOT_DIR=ROOT_DIR,vmin=None,vmax=None,cmap=None,save=
         savename = os.path.abspath(savename)
         if save:
             print(colorful.tan(f"saving {savename}"))
-            http_prefix = 'http://localhost:10000'
+            #http_prefix = 'http://localhost:10000'
             #http_prefix = 'http://0.tcp.us-cal-1.ngrok.io:13553'
 
-            as_url = http_prefix+ savename.split('/root')[-1]
+            #as_url = http_prefix+ savename.split('/root')[-1]
+            #====================================================
+            assert savename.startswith(os.environ['httproot'])
+            as_url = os.environ['httpurl']+'/'+savename[len(os.environ['httproot']):]
+            #====================================================
             print(colorful.tan(f"saving {as_url}"))
 
         imgi = imgi.astype(np.float32)
@@ -405,7 +410,16 @@ def cipdb(flag,val='1'):
     pass
 #==============================================================
 def save_plot(y,title,savename,x=None):
+    #===========================================================
     print(colorful.tan(f"saving {os.path.realpath(savename)}"))
+    # /root/debug/myplot.png
+    # myplot.png
+    # http://localhost:10000/debug/myplot.png
+    savename = os.path.abspath(savename)
+    assert savename.startswith(os.environ['httproot'])
+    saveurl = os.environ['httpurl']+'/'+savename[len(os.environ['httproot']):]
+    print(colorful.tan(f'saving {saveurl}'))
+    #=====================================================
     plt.figure()
     if x is None:
         plt.plot(y)
@@ -415,7 +429,7 @@ def save_plot(y,title,savename,x=None):
     plt.show()
     plt.savefig(savename)
     plt.close()
-    
+
 def save_plot2(y,title,basename,x=None,syncable=False):
     # prefix = dutils.get('save_prefix','')
     prefix = ''
