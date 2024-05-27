@@ -416,6 +416,7 @@ def save_plot(y,title,savename,x=None):
     # myplot.png
     # http://localhost:10000/debug/myplot.png
     savename = os.path.abspath(savename)
+    # p46()
     assert savename.startswith(os.environ['httproot'])
     saveurl = os.environ['httpurl']+'/'+savename[len(os.environ['httproot']):]
     print(colorful.tan(f'saving {saveurl}'))
