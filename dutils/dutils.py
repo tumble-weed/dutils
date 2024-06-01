@@ -896,3 +896,5 @@ def get_imagenet_model_and_transform():
         torchvision.transforms.Normalize(mean=mean,std=std),
     ])
     return model,transform
+def listset(*args):
+    return list(set(*args))
