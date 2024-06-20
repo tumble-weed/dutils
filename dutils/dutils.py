@@ -289,6 +289,7 @@ def img_save(img, savename,ROOT_DIR=ROOT_DIR,vmin=None,vmax=None,cmap=None,save=
 
     if return_img:
         return img_with_text0
+    return savename
 def img_dict_save(im_dict,savename,ROOT_DIR=ROOT_DIR,cmap=None):
     savename = os.path.join(ROOT_DIR,savename)
     new_im_dict = {}
