@@ -430,7 +430,7 @@ def save_plot(y,title,savename,x=None):
     plt.show()
     plt.savefig(savename)
     plt.close()
-
+    return savename
 def save_plot2(y,title,basename,x=None,syncable=False):
     # prefix = dutils.get('save_prefix','')
     prefix = ''
