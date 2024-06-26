@@ -569,6 +569,7 @@ def init_objects():
 'p45':'p45',
 'p47':'p47',
 'p46':'p46',
+'myenum':'myenum',
         }
         for obj in obj_dict:
             if obj not in builtins:
