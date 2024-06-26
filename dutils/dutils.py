@@ -901,4 +901,4 @@ def get_imagenet_model_and_transform():
 def listset(*args):
     return list(set(*args))
 def myenum(options):
-    return {k:k for o in options}
+    return {k:k for k in options}
