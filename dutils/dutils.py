@@ -580,6 +580,19 @@ def init_objects():
     #    pass
 
 import importlib
+#=====================================================
+#from unittest.mock import Mock
+#NOWANDB = os.environ.get('NOWANDB',False)== '1'
+#original_import = __import__
+#def import_hook(name, *args, **kwargs):
+#    #print(f"Importing module: {name}")
+#    #return original_import(name, *args, **kwargs)
+#    if name == 'wandb':
+#        if NOWANDB:
+#            return Mock()
+#        return original_import(name,*args,**kwargs)
+#sys.meta_path.insert(0, import_hook)
+#=====================================================
 def init_modules():
     builtins = globals()['__builtins__']
     ''' 
@@ -592,13 +605,14 @@ def init_modules():
     #'''
     try:
         #if 'np' not in globals():
-        if 'wandb' not in builtins:
-            if not (os.environ.get('NOWANDB',False) == '1'):
-                import wandb as wandb_
-                builtins['wandb'] = wandb_
-            else:
-                from unittest.mock import Mock
-                builtins['wandb'] = Mock()
+        #if 'wandb' not in builtins:
+        #    p46()
+        #    if not (os.environ.get('NOWANDB',False) == '1'):
+        #        import wandb as wandb_
+        #        builtins['wandb'] = wandb_
+        #    else:
+        #        from unittest.mock import Mock
+        #        builtins['wandb'] = Mock()
 
 
         module_dict = {'IPython':'IPython'}
