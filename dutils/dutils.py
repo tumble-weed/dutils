@@ -592,6 +592,15 @@ def init_modules():
     #'''
     try:
         #if 'np' not in globals():
+        if 'wandb' not in builtins:
+            if not (os.environ.get('NOWANDB',False) == '1'):
+                import wandb as wandb_
+                builtins['wandb'] = wandb_
+            else:
+                from unittest.mock import Mock
+                builtins['wandb'] = Mock()
+
+
         module_dict = {'IPython':'IPython'}
         if True:
             for usename,importname in module_dict.items():
