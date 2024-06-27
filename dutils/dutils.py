@@ -632,7 +632,6 @@ def init_modules():
                 builtins['tqdm'] = tqdm
                 print('tqdm')
             if 'os' not in builtins:
-                import os
                 builtins['os'] = os
                 print('os')
             if 'sys' not in builtins:
