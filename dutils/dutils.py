@@ -154,10 +154,15 @@ def get_img_save(savedir):
         return img_save(img, savename,ROOT_DIR=ROOT_DIR,vmin=None,vmax=None,cmap=None,save=True,return_img=False,use_matplotlib=True,syncable=False)
     return img_save2
 
-def img_grid_save(img_t,savename,ROOT_DIR=ROOT_DIR,use_matplotlib=True,save=True,cmap=None):
+def make_grid(img_t,nrow=1):
     if not isinstance(img_t,torch.Tensor):
         img_t = torch.tensor(img_t)
-    img_t_grid = vutils.make_grid(img_t)
+    img_t_grid = vutils.make_grid(img_t,nrow=nrow)
+def img_grid_save(img_t,savename,ROOT_DIR=ROOT_DIR,use_matplotlib=True,save=True,cmap=None):
+    #if not isinstance(img_t,torch.Tensor):
+    #    img_t = torch.tensor(img_t)
+    #img_t_grid = vutils.make_grid(img_t)
+    img_t_grid = vutils.make_grid(im_t)
     img_save(img_t_grid, savename,ROOT_DIR=ROOT_DIR,cmap=cmap,save=save,use_matplotlib=use_matplotlib)
     """
     saveroot = os.path.splitext(savename)[0]
