@@ -410,7 +410,7 @@ builtins.plt = plt
 import colorful
 builtins.colorful = colorful
 
-# import collections
+import collections
 # builtins.torch = torch
 #==============================================================
 def cipdb(flag,val='1'):
@@ -640,7 +640,7 @@ def init_modules():
         #        builtins['wandb'] = Mock()
 
 
-        module_dict = {'IPython':'IPython'}
+        module_dict = {'IPython':'IPython','collections':'collections'}
         if True:
             for usename,importname in module_dict.items():
                 #! import module by name
