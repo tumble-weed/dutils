@@ -10,6 +10,7 @@ import inspect
 import ipdb
 import torchvision.utils as vutils
 import torchvision
+import functools
 DEBUG_DIR = 'debugging'
 SAVE_DIR = DEBUG_DIR
 SYNC = False
@@ -533,6 +534,12 @@ def note(message):
 def printgreen(message):
     print(colorful.green(message))
 class Timer():
+    elapsed_ = collections.defaultdict(list)
+    @classmethod
+    def clear(cls):
+        for k in cls.elapsed_:
+            del cls.elapsed_[k]
+        pass
     def __init__(self,name,verbose=True):
         self.name= name
         self.verbose = verbose
@@ -545,7 +552,17 @@ class Timer():
         self.elapsed = self.toc-self.tic
         if self.verbose:
            print(colorful.yellow(f'{self.name} took {self.elapsed}'))
+        self.elapsed_[self.name].append(self.elapsed)
+def timeit(name,verbose=True):
+    def decorator(func):
+        @wraps(func)
+        def decorated(*args,**kwargs):
+            with Timer(name,verbose=verbose):
+                return func(*args,**kwargs)
+        return decorated
+    return decorator
 
+        
 pause = ipdb.set_trace
 pauseonce = ipdb.set_trace
 pausetodo = ipdb.set_trace
@@ -577,6 +594,7 @@ def init_objects():
 'p47':'p47',
 'p46':'p46',
 'myenum':'myenum',
+'listset':'listset',
         }
         for obj in obj_dict:
             if obj not in builtins:
