@@ -949,3 +949,19 @@ def listset(*args):
     return list(set(*args))
 def myenum(*options):
     return {k:k for k in options}
+
+#================================================================
+# Backup the original import function
+original_import = builtins.__import__
+
+# Define the new import function
+def my_import(name, *args, **kwargs):
+    if name == 'wandb':
+        if os.environ.get('NOWANDB',False) == '1':
+            print('returning Mock')
+            from unittest.mock import Mock
+            return Mock()
+    return original_import(name, *args, **kwargs)
+
+# Override the import function
+builtins.__import__ = my_import
