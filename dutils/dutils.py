@@ -972,6 +972,7 @@ def get_n_wandb_runs(project_name):
    api = wandb.Api()  
    try:
        runs = api.runs(path = f'tumbleweed-org/{project_name}')
+       len(runs)
    except ValueError:
        runs = []  
    except TypeError:
