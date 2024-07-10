@@ -965,3 +965,15 @@ def my_import(name, *args, **kwargs):
 
 # Override the import function
 builtins.__import__ = my_import
+
+#================================================================
+import wandb
+def get_n_wandb_runs(project_name):
+   api = wandb.Api()  
+   try:
+       runs = api.runs(path = f'tumbleweed-org/{project_name}')
+   except ValueError:
+       runs = []  
+   except TypeError:
+       runs = []    
+   return len(runs)
