@@ -967,6 +967,16 @@ def my_import(name, *args, **kwargs):
 builtins.__import__ = my_import
 
 #================================================================
+import torch
+def mycompile(*args,**kwargs):
+    #p46()
+    assert len(args) == 1
+    if os.environ['NOCOMPILE'] == '1':
+        return args[0]
+    return torch.compile_(*args,**kwargs)
+torch.compile_ = torch.compile
+torch.compile = mycompile
+#================================================================
 import wandb
 def get_n_wandb_runs(project_name):
    api = wandb.Api()  
