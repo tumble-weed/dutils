@@ -971,7 +971,7 @@ import torch
 def mycompile(*args,**kwargs):
     #p46()
     assert len(args) == 1
-    if os.environ['NOCOMPILE'] == '1':
+    if os.environ.get('NOCOMPILE','0') == '1':
         return args[0]
     return torch.compile_(*args,**kwargs)
 torch.compile_ = torch.compile
