@@ -427,9 +427,13 @@ class SaveFigure():
         self.fig = plt.figure()
         return self
     def __exit__(self,*args):
+        p46()
+        plt.figure(self.fig.number)
         plt.title(self.title)
         plt.show()
         plt.savefig(self.savename)
+        print(colorful.tan(f'saving {self.savename}'))
+        p46()
         plt.close()
         pass
 def save_plot(y,title,savename,x=None):
@@ -1014,7 +1018,7 @@ def create_histogram(y=None,x=None,nbins=10):
     x = np.array(x)
     bin_indices = np.digitize(x,bin_edges)
     bin_indices = bin_indices - 1
-    p46()
+    #p46()
     ignore_empty_bin=True
     if not ignore_empty_bin and len(set(bin_indices)) < nbins - 1:
         p46()
