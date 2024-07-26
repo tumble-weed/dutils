@@ -418,6 +418,20 @@ def cipdb(flag,val='1'):
         import ipdb; ipdb.set_trace()
     pass
 #==============================================================
+class SaveFigure():
+    def __init__(self,savename=None,title=''):
+        self.savename = savename
+        self.title = title
+        pass
+    def __enter__(self):
+        self.fig = plt.figure()
+        return self
+    def __exit__(self,*args):
+        plt.title(self.title)
+        plt.show()
+        plt.savefig(self.savename)
+        plt.close()
+        pass
 def save_plot(y,title,savename,x=None):
     #===========================================================
     print(colorful.tan(f"saving {os.path.realpath(savename)}"))
@@ -988,3 +1002,65 @@ def get_n_wandb_runs(project_name):
    except TypeError:
        runs = []    
    return len(runs)
+
+def create_histogram(y=None,x=None,nbins=10):
+    assert y is not None
+    assert x is not None
+    bin_edges = np.linspace(x.min()-1e-6,x.max()+1e-6,nbins+1)
+    bin_indices = np.digitize(x,bin_edges)
+    nbins= len(bin_edges) - 1 
+    assert len(x) == len(y)
+    y = np.array(y)
+    x = np.array(x)
+    bin_indices = np.digitize(x,bin_edges)
+    bin_indices = bin_indices - 1
+    p46()
+    ignore_empty_bin=True
+    if not ignore_empty_bin and len(set(bin_indices)) < nbins - 1:
+        p46()
+# assign all_pointing_correct to the correct bin
+    binned_y = np.zeros(nbins)
+    binned_x = np.zeros(nbins)
+    for i in range(nbins):
+        #p46()
+        in_bin = (bin_indices == i)
+        n_in_bin = in_bin.sum()
+        binned_x[i] = n_in_bin
+        if n_in_bin == 0:
+            binned_y[i] = 0 
+            print(f'bin {i} has no elements')
+            #p46()
+        else:
+            #binned_y[i] = y[in_bin].sum() / n_in_bin
+            binned_y[i] = n_in_bin
+        #binned_x[i] = (bin_indices == i).sum() / len(all_object_prevalance)
+    
+    bin_centers = bin_edges[:-1] + 0.5/nbins
+    bin_centers = (bin_centers).astype(np.int32)
+    bin_edges = (bin_edges).astype(np.int32)
+    assert binned_x.sum() == len(x)
+    return binned_x,binned_y, bin_edges, bin_centers
+
+    
+def save_histogram(y=None,x=None,title='',savename=None,nbins=10):
+    #saveroot = os.path.splitext(savename)[0]
+    if not os.path.isabs(savename):
+        savename = os.path.join(ROOT_DIR,savename)
+
+    # creates the bins for the histogram and then plots the bar graph
+    binned_x,binned_y,bin_edges,bin_centers = create_histogram(y,x,nbins=nbins)
+    nbins = len(bin_edges) - 1
+    #plt.bar(bin_edges[:-1],y,width=0.8*1/nbins,align='edge')
+    p46() 
+    with SaveFigure(savename=savename,title=title) as figure_saver:
+        #plt.bar(bins,binned_y) 
+        plt.figure(figure_saver.fig.number)
+        plt.bar(bin_centers,binned_y,
+            #width=0.8*100/nbins,
+            align='center',
+            #label=method,
+            alpha=0.5,
+            #color=HISTOGRAM_COLORS[ii]
+        )
+    print(savename)
+    
