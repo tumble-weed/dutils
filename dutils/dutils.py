@@ -1056,9 +1056,11 @@ def save_histogram(y=None,x=None,title='',savename=None,nbins=10):
     nbins = len(bin_edges) - 1
     #plt.bar(bin_edges[:-1],y,width=0.8*1/nbins,align='edge')
     p46() 
-    with SaveFigure(savename=savename,title=title) as figure_saver:
+    #with SaveFigure(savename=savename,title=title) as figure_saver:
+    #    plt.figure(figure_saver.fig.number)
+    if True:
         #plt.bar(bins,binned_y) 
-        plt.figure(figure_saver.fig.number)
+        fig = plt.figure()
         plt.bar(bin_centers,binned_y,
             #width=0.8*100/nbins,
             align='center',
@@ -1066,5 +1068,11 @@ def save_histogram(y=None,x=None,title='',savename=None,nbins=10):
             alpha=0.5,
             #color=HISTOGRAM_COLORS[ii]
         )
+        plt.title(title)
+        plt.show()
+        plt.savefig(savename)
+        print(colorful.tan(f'saving {savename}'))
+        plt.close()
+       
     print(savename)
     
