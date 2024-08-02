@@ -1011,6 +1011,7 @@ def create_histogram(y=None,x=None,nbins=10):
     assert y is not None
     assert x is not None
     bin_edges = np.linspace(x.min()-1e-6,x.max()+1e-6,nbins+1)
+    #p46()
     bin_indices = np.digitize(x,bin_edges)
     nbins= len(bin_edges) - 1 
     assert len(x) == len(y)
@@ -1039,9 +1040,9 @@ def create_histogram(y=None,x=None,nbins=10):
             binned_y[i] = n_in_bin
         #binned_x[i] = (bin_indices == i).sum() / len(all_object_prevalance)
     
-    bin_centers = bin_edges[:-1] + 0.5/nbins
-    bin_centers = (bin_centers).astype(np.int32)
-    bin_edges = (bin_edges).astype(np.int32)
+    bin_centers = bin_edges[:-1] + (bin_edges[1:] - bin_edges[:-1])/nbins
+    #bin_centers = (bin_centers).astype(np.int32)
+    #bin_edges = (bin_edges).astype(np.int32)
     assert binned_x.sum() == len(x)
     return binned_x,binned_y, bin_edges, bin_centers
 
@@ -1055,14 +1056,16 @@ def save_histogram(y=None,x=None,title='',savename=None,nbins=10):
     binned_x,binned_y,bin_edges,bin_centers = create_histogram(y,x,nbins=nbins)
     nbins = len(bin_edges) - 1
     #plt.bar(bin_edges[:-1],y,width=0.8*1/nbins,align='edge')
-    p46() 
+    #p46() 
     #with SaveFigure(savename=savename,title=title) as figure_saver:
     #    plt.figure(figure_saver.fig.number)
     if True:
         #plt.bar(bins,binned_y) 
         fig = plt.figure()
+        w = min(bin_centers[1:] - bin_centers[:-1])
         plt.bar(bin_centers,binned_y,
             #width=0.8*100/nbins,
+            width = 0.8 *w,
             align='center',
             #label=method,
             alpha=0.5,
@@ -1072,6 +1075,10 @@ def save_histogram(y=None,x=None,title='',savename=None,nbins=10):
         plt.show()
         plt.savefig(savename)
         print(colorful.tan(f'saving {savename}'))
+        assert savename.startswith(os.environ['httproot'])
+        as_url = os.environ['httpurl']+'/'+savename[len(os.environ['httproot']):]
+        #====================================================
+        print(colorful.tan(f"saving {as_url}"))        
         plt.close()
        
     print(savename)
