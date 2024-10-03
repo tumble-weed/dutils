@@ -11,6 +11,7 @@ import ipdb
 import torchvision.utils as vutils
 import torchvision
 import functools
+from collections import defaultdict
 DEBUG_DIR = 'debugging'
 SAVE_DIR = DEBUG_DIR
 SYNC = False
@@ -978,7 +979,10 @@ def my_import(name, *args, **kwargs):
         if os.environ.get('NOWANDB',False) == '1':
             print('returning Mock')
             from unittest.mock import Mock
-            return Mock()
+            w = Mock()
+            w.config = defaultdict(str)
+            #p46()
+            return w
     return original_import(name, *args, **kwargs)
 
 # Override the import function
