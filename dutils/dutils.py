@@ -449,7 +449,7 @@ def save_plot(y,title,savename,x=None):
     saveurl = os.environ['httpurl']+'/'+savename[len(os.environ['httproot']):]
     print(colorful.tan(f'saving {saveurl}'))
     #=====================================================
-    plt.figure()
+    f = plt.figure()
     if x is None:
         plt.plot(y)
     else:
