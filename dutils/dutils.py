@@ -285,6 +285,7 @@ def img_save(img, savename,ROOT_DIR=ROOT_DIR,vmin=None,vmax=None,cmap=None,save=
             img_with_text = imgi
         if i == 0:
             img_with_text0 = img_with_text
+        import pdb;pdb.set_trace()
         if save:
             os.makedirs(os.path.dirname(savename),exist_ok=True)
             skimage.io.imsave(savename,img_with_text)
