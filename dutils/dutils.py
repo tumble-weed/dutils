@@ -161,6 +161,8 @@ def make_grid(img_t,nrow=1):
     if not isinstance(img_t,torch.Tensor):
         img_t = torch.tensor(img_t)
     img_t_grid = vutils.make_grid(img_t,nrow=nrow)
+    if img_t_grid.ndim == 3:
+        img_t_grid = img_t_grid[None,...]
     return img_t_grid
 def img_grid_save(img_t,savename,nrow=None,ROOT_DIR=ROOT_DIR,use_matplotlib=True,save=True,cmap=None):
     #if not isinstance(img_t,torch.Tensor):
@@ -285,7 +287,6 @@ def img_save(img, savename,ROOT_DIR=ROOT_DIR,vmin=None,vmax=None,cmap=None,save=
             img_with_text = imgi
         if i == 0:
             img_with_text0 = img_with_text
-        import pdb;pdb.set_trace()
         if save:
             os.makedirs(os.path.dirname(savename),exist_ok=True)
             skimage.io.imsave(savename,img_with_text)
