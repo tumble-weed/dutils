@@ -738,6 +738,8 @@ def init_modules():
                 builtins['json'] = json
             if 'importlib' not in builtins:
                 builtins['importlib'] = importlib
+            if 'logging' not in builtins:
+                builtins['logging'] = logging 
             #if 'p45' not in builtins:
             #    builtins['p45'] = p45
             #if 'p46' not in builtins:
